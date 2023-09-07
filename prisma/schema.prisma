@@ -9,3 +9,120 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+// Define your data models
+model TaskLog {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  title         String
+  description   String
+  currentDate   DateTime
+  updatedDate   DateTime
+
+  // Define relationships
+  User          User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  name              String
+  email             String
+  code              Int
+  dateOfBirth       DateTime
+  address           String
+  bloodGroup        String
+  resume            String
+  password          String
+  role              String
+  designation       Int
+  currentDesignation Int
+  dateOfJoining     DateTime
+
+  // Define relationships
+  CurrentDesignation Designation @relation("UserCurrentDesignation", fields: [currentDesignation], references: [id])
+  Designation        Designation @relation("UserDesignation",fields: [designation], references: [id])
+  TaskLogs           TaskLog[]
+  ServiceRecords     ServiceRecord[]
+  PromotionHistory   PromotionHistory[]
+  AchievementHistory AchievementHistory[]
+  Grievances         Grievance[]
+  UserProjects       UserProject[]
+}
+
+model Grievance {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  title        String
+  description  String
+  isRequirement Boolean
+
+  // Define relationships
+  User User @relation(fields: [userId], references: [id])
+}
+
+model ServiceRecord {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  companyName String
+  from        DateTime
+  to          DateTime
+  total       Float
+
+  // Define relationships
+  User User @relation(fields: [userId], references: [id])
+}
+
+model PromotionHistory {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  date        DateTime
+  designation Int
+
+  // Define relationships
+  User       User       @relation(fields: [userId], references: [id])
+  Designation Designation @relation(fields: [designation], references: [id])
+}
+
+model Project {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  // Define relationships
+  UserProjects UserProject[]
+}
+
+model AchievementHistory {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  title       String
+  description String
+  date        DateTime
+
+  // Define relationships
+  User User @relation(fields: [userId], references: [id])
+}
+
+model UserProject {
+  id          Int @id @default(autoincrement())
+  userId      Int
+  projectId   Int
+  currentDate DateTime
+  updatedDate DateTime
+
+  // Define relationships
+  User    User    @relation(fields: [userId], references: [id])
+  Project Project @relation(fields: [projectId], references: [id])
+}
+
+model Designation {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+
+  // Define relationships
+  Designation User[] @relation("UserDesignation")
+  PromotionHistories   PromotionHistory[]
+  UserCurrentDesignation User[] @relation("UserCurrentDesignation")
+}
+
