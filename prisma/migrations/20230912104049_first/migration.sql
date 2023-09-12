@@ -4,8 +4,8 @@ CREATE TABLE "TaskLog" (
     "userId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "currentDate" TIMESTAMP(3) NOT NULL,
-    "updatedDate" TIMESTAMP(3) NOT NULL,
+    "currentDate" TIMESTAMP(3),
+    "updatedDate" TIMESTAMP(3),
 
     CONSTRAINT "TaskLog_pkey" PRIMARY KEY ("id")
 );
@@ -13,18 +13,18 @@ CREATE TABLE "TaskLog" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" TEXT,
     "email" TEXT NOT NULL,
-    "code" INTEGER NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
-    "address" TEXT NOT NULL,
-    "bloodGroup" TEXT NOT NULL,
-    "resume" TEXT NOT NULL,
+    "code" INTEGER,
+    "dateOfBirth" TIMESTAMP(3),
+    "address" TEXT,
+    "bloodGroup" TEXT,
+    "resume" TEXT,
     "password" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
-    "designation" INTEGER NOT NULL,
-    "currentDesignation" INTEGER NOT NULL,
-    "dateOfJoining" TIMESTAMP(3) NOT NULL,
+    "role" TEXT,
+    "designation" INTEGER,
+    "currentDesignation" INTEGER,
+    "dateOfJoining" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -45,8 +45,8 @@ CREATE TABLE "ServiceRecord" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "companyName" TEXT NOT NULL,
-    "from" TIMESTAMP(3) NOT NULL,
-    "to" TIMESTAMP(3) NOT NULL,
+    "from" TIMESTAMP(3),
+    "to" TIMESTAMP(3),
     "total" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "ServiceRecord_pkey" PRIMARY KEY ("id")
@@ -56,7 +56,7 @@ CREATE TABLE "ServiceRecord" (
 CREATE TABLE "PromotionHistory" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TIMESTAMP(3),
     "designation" INTEGER NOT NULL,
 
     CONSTRAINT "PromotionHistory_pkey" PRIMARY KEY ("id")
@@ -76,7 +76,7 @@ CREATE TABLE "AchievementHistory" (
     "userId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TIMESTAMP(3),
 
     CONSTRAINT "AchievementHistory_pkey" PRIMARY KEY ("id")
 );
@@ -86,8 +86,8 @@ CREATE TABLE "UserProject" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "projectId" INTEGER NOT NULL,
-    "currentDate" TIMESTAMP(3) NOT NULL,
-    "updatedDate" TIMESTAMP(3) NOT NULL,
+    "currentDate" TIMESTAMP(3),
+    "updatedDate" TIMESTAMP(3),
 
     CONSTRAINT "UserProject_pkey" PRIMARY KEY ("id")
 );
@@ -105,10 +105,10 @@ CREATE TABLE "Designation" (
 ALTER TABLE "TaskLog" ADD CONSTRAINT "TaskLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_currentDesignation_fkey" FOREIGN KEY ("currentDesignation") REFERENCES "Designation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_currentDesignation_fkey" FOREIGN KEY ("currentDesignation") REFERENCES "Designation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_designation_fkey" FOREIGN KEY ("designation") REFERENCES "Designation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_designation_fkey" FOREIGN KEY ("designation") REFERENCES "Designation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Grievance" ADD CONSTRAINT "Grievance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

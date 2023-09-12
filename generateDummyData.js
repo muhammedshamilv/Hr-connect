@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+const { PrismaClient } = require('@prisma/client');
 const currentDate = new Date();
 const prisma = new PrismaClient();
 

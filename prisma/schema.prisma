@@ -17,8 +17,8 @@ model TaskLog {
   userId        Int
   title         String
   description   String
-  currentDate   DateTime
-  updatedDate   DateTime
+  currentDate   DateTime?
+  updatedDate   DateTime?
 
   // Define relationships
   User          User     @relation(fields: [userId], references: [id])
@@ -26,22 +26,22 @@ model TaskLog {
 
 model User {
   id                Int       @id @default(autoincrement())
-  name              String
+  name              String?
   email             String
-  code              Int
-  dateOfBirth       DateTime
-  address           String
-  bloodGroup        String
-  resume            String
+  code              Int?
+  dateOfBirth       DateTime?
+  address           String?
+  bloodGroup        String?
+  resume            String?
   password          String
-  role              String
-  designation       Int
-  currentDesignation Int
-  dateOfJoining     DateTime
+  role              String?
+  designation       Int?
+  currentDesignation Int?
+  dateOfJoining     DateTime?
 
   // Define relationships
-  CurrentDesignation Designation @relation("UserCurrentDesignation", fields: [currentDesignation], references: [id])
-  Designation        Designation @relation("UserDesignation",fields: [designation], references: [id])
+  CurrentDesignation Designation? @relation("UserCurrentDesignation", fields: [currentDesignation], references: [id])
+  Designation        Designation? @relation("UserDesignation",fields: [designation], references: [id])
   TaskLogs           TaskLog[]
   ServiceRecords     ServiceRecord[]
   PromotionHistory   PromotionHistory[]
@@ -65,8 +65,8 @@ model ServiceRecord {
   id          Int      @id @default(autoincrement())
   userId      Int
   companyName String
-  from        DateTime
-  to          DateTime
+  from        DateTime?
+  to          DateTime?
   total       Float
 
   // Define relationships
@@ -76,7 +76,7 @@ model ServiceRecord {
 model PromotionHistory {
   id          Int      @id @default(autoincrement())
   userId      Int
-  date        DateTime
+  date        DateTime?
   designation Int
 
   // Define relationships
@@ -97,7 +97,7 @@ model AchievementHistory {
   userId      Int
   title       String
   description String
-  date        DateTime
+  date        DateTime?
 
   // Define relationships
   User User @relation(fields: [userId], references: [id])
@@ -107,8 +107,8 @@ model UserProject {
   id          Int @id @default(autoincrement())
   userId      Int
   projectId   Int
-  currentDate DateTime
-  updatedDate DateTime
+  currentDate DateTime?
+  updatedDate DateTime?
 
   // Define relationships
   User    User    @relation(fields: [userId], references: [id])
